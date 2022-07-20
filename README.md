@@ -54,14 +54,6 @@ Luckily for us though, the basics aren't too bad though, as long as you don't tr
 
 ## The Request/Response Cycle in Django
 
-In Unit 2, we learned that in a full-stack web application:
-
-- Clicking links and submitting forms on the front-end (browser) sends HTTP requests to the web app running on a web server.
-- The web server has a routing mechanism that matches HTTP requests to code.
-- That code typically performs CRUD, then either:
-    - Renders dynamic templates for Read data operations.
-    - Redirects the browser in the case of Create, Update or Delete data operations.
-
 Once again, let's review this diagram that shows how a request flows through a Django project:
 
 ![https://i.imgur.com/1fFg7lz.png](https://i.imgur.com/1fFg7lz.png)
@@ -71,102 +63,23 @@ Once again, let's review this diagram that shows how a request flows through a D
 Project setup in Django has several steps. Here is an outline of those steps:
 
 1. Create Project Folder
-2. Create Python Enviroment for the Project
-3. Install Project Dependancies
-4. Use Django Start Project to generate settings
-5. Use Django Start App to generate template for project functionality
+1. Use Django Start Project to generate settings
+1. Use Django Start App to generate template for project functionality
 
 Let's get started.
 
 ### 1. Create Project Folder
 
-In terminal:
+First *fork* this repo, as it is a deliverable! 
+
+Then in terminal, clone this repo down into your labs folder:
 
 ```bash
-mkdir spotify_django && cd spotify_django
+git clone <ssh-url>
+cd django-spotify 
 ```
 
-### 2. Create Python Enviroment for the Project
-
-To house all of the dependencies for our application we must create an enviroment. This is the python version of running npm init and having a node_modules directory.
-
-You must make sure you have python3 installed and available.
-
-In Terminal:
-
-```bash
-which python3
-```
-
-If your terminal displays a location then you are all set! If you recieve a "not found" then you need to install python3. This process can vary between operating systems. If you are on mac you can use brew for installation.
-
-In Terminal:
-
-```bash
-brew install python@3.9
-```
-
-Once we have verified that python is installed and available we can create the enviroment using the built in venv package.
-
-In Terminal:
-
-```
-python3 -m venv .env
-
-```
-
-You should now see a .env directory within your project folder.
-
-Now comes the tricky part. With Python you must activate the enviroment in order to start using it.
-
-In Terminal:
-
-```
-source .env/bin/activate
-
-```
-
-Your terminal should now display that you are inside on an enviroment.
-
-> NOTE: Depending on your configuration it will look different but you should see something like (env) in the prompt.
-> 
-
-### 3. Install Project Dependancies
-
-Now that our enviroment is established we can install the dependancies. We will need two dependancies for the project, Dango and Psycopg2.
-
-In Terminal:
-
-```
-pip3 install django
-pip3 install psycopg2-binary
-
-```
-
-Django doesn't utilize a package.json. Instead, we just use a text file that lists all of our dependencies. The pip freeze command saves the dependencies in our virtualenv to that file. Let's create a requirements.txt file with all of our required modules.
-
-In Terminal:
-
-```
-pip3 freeze > requirements.txt
-
-```
-
-Your file should look something like this:
-
-```
-asgiref==3.3.4
-Django==3.2
-psycopg2-binary==2.8.6
-pytz==2021.1
-sqlparse==0.4.1
-
-```
-
-> NOTE: To install dependancies when you clone down an application the command is pip3 install -r requirements.txt
-> 
-
-### 4. Use Django Start Project to generate settings
+### 2. Use Django Start Project to generate settings
 
 Django has an incredible super power where it can create all the startup code for our application. To get started we must run the django-admin command.
 
@@ -177,10 +90,12 @@ django-admin startproject spotify_project . # DO NOT FORGET THE 'dot' at the end
 
 ```
 
+> The dot at the end is important so that we generate the project in the root of this directory, not in a nested folder.
+
 Take a minute to look at the generated files. Your file structure should look something like this:
 
 ```
-spotify_django
+django_spotify
 ├── manage.py
 ├── requirements.txt
 └── spotify_project
@@ -192,11 +107,11 @@ spotify_django
 
 ```
 
-The only file we will need to configure is going to be the [settings.py](http://settings.py/) when we start configuration. As for now we will move on to the next step.
+The only file we will need to configure is going to be the `settings.py` when we start configuration. As for now we will move on to the next step.
 
-### 5. Use Django Start App to generate template for project functionality
+### 3. Use Django Start App to generate template for project functionality
 
-Because of the way Django is structured all functionality is divided into seperate directories referred to as "apps". If you head over to the [settings.py](http://settings.py/) file you can see a list of already installed apps. Our next big step is creating an app of our own.
+Because of the way Django is structured all functionality is divided into seperate directories referred to as "apps". If you head over to the `settings.py` file you can see a list of already installed apps. Our next big step is creating an app of our own.
 
 If we would like to generate the files needed for our project's functionality we will need to use another command called startapp.
 
@@ -221,7 +136,6 @@ spotify_django
 │   ├── tests.py
 │   └── views.py
 ├── manage.py
-├── requirements.txt
 └── spotify_project <- this is the project folder to hold settings
     ├── __init__.py
     ├── asgi.py
@@ -245,7 +159,7 @@ To configure our settings there are a few steps we will need to do.
 
 Because Django comes with so many features built in, it goes by an "opt in" approach where you add in the settings what apps should be included on the server.
 
-If you check out the [settings.py](http://settings.py/), we can see a variety of apps installed already. We will be adding our app to the list.
+If you check out the `settings.py`, we can see a variety of apps installed already. We will be adding our app to the list.
 
 In spotify_project/settings.py
 
@@ -268,7 +182,7 @@ Django is extremely versatile and will allow us to connect to a variety of diffe
 
 In the settings file you will find a DATABASES dictionary. This is where we will be updating the connection.
 
-In spotify_project/settings.py
+In `spotify_project/settings.py`:
 
 ```
 DATABASES = {
@@ -281,8 +195,12 @@ DATABASES = {
 ```
 
 > NOTE: Django does not create our database for us automatically so we will need to run the create commands for postgresql.
+
+Run the following command to create your databse: 
+
+```
 createdb spotify
-> 
+```
 
 Now that we have estabished the connection we can apply the intial migrations with the migrate command.
 
@@ -369,10 +287,10 @@ To connect our project urls to our application urls we need to go through a** on
 
 To do this we must do the following steps:
 
-1. Create a [urls.py](http://urls.py/) in our application folder.
+1. Create a `urls.py` in our application folder.
 2. Point our project urls to the newly created urls file.
 
-### 1. Create a [urls.py](http://urls.py/) in our application folder.
+### 1. Create a `urls.py` in our application folder.
 
 In Terminal:
 
@@ -397,7 +315,7 @@ urlpatterns = [
 
 ### 2. Point our project urls to the newly created urls file.
 
-To point our project to our application urls we will need to import include and define a new path.
+To point our project to our application urls we will need to import `include` and define a new `path`.
 
 Each item in the urlpatterns list defines a URL-based route or, as in the case above, mounts the routes contained in other URLconf modules.
 
@@ -448,11 +366,11 @@ urlpatterns = [
 > NOTE: This will cause your server to crash because we have not defined the view that this is requiring. Our next step will be to add the view function into our views.py.
 > 
 
-Now that we have our route estqablished it is time to build out our view function.
+Now that we have our route established it is time to build out our view function.
 
-We will be leveraging class base views provided to us by Django. To do this we will be importing the classes at the top of the file.
+For this app, we will be leveraging [class-based views](https://docs.djangoproject.com/en/4.0/topics/class-based-views/) provided to us by Django. To do this we will be importing the classes at the top of the file.
 
-In main_app/views.py:
+In `main_app/views.py`:
 
 ```
 from django.shortcuts import render
@@ -520,14 +438,14 @@ Django has two templating engines built-in:
 - Its own Django Template Language (DTL)
 - Jinja2, a Python template engine, inspired by Django's DTL.
 
-Not surprisingly, a Django project is pre-configured to use DTL, which is very capable, so we'll be using it throughout.
+Not surprisingly, a Django project is pre-configured to use DTL, which is very capable, so we'll be using it throughout this application.
 
-Django is configured to look for a directory labeled templates within each installed application.
+Django is configured to look for a directory labeled `templates` within each installed application.
 
 To make our templates and use them will require a few steps:
 
 1. Create a templates directory inside our app directory.
-2. Create our Html file to be our rendered template.
+2. Create our HTML file to be our rendered template.
 3. Update our view function to use the template.
 
 ### 1. Create a templates directory inside our app directory.
@@ -535,24 +453,24 @@ To make our templates and use them will require a few steps:
 **You only have to do this step once.**
 
 ```
-mkdir main_app/templates
+mkdir main_app/templates/main_app
 
 ```
 
-Now that we have a template directory we can start to create our templates.
+Now that we have a template directory we can start to create our templates. Remember that we put them in a sub-directory named the same as our app so that identically-named templates don't get mixed up by Django. 
 
-### 2. Create our Html file to be our rendered template.
+### 2. Create our HTML file to be our rendered template.
 
-Let's create the home template by adding a new html file within the templates directory.
+Let's create the home template by adding a new HTML file within the templates directory.
 
 ```
-touch main_app/templates/home.html
+touch main_app/templates/main_app/home.html
 
 ```
 
 Once you have created the template add some base html.
 
-In main_app/templates/home.html:
+In main_app/templates/main_app/home.html:
 
 ```
 <!DOCTYPE html>
@@ -607,7 +525,7 @@ Retrace the steps above and convert the About View into a template view as well.
 <summary>Solution</summary>
 <br>
 
-In main_app/templates/about.html:
+In `main_app/templates/main_app/about.html`:
 
 ```
 <!DOCTYPE html>
@@ -640,8 +558,6 @@ class About(TemplateView):
 
 Django has a [template inheritance](https://docs.djangoproject.com/en/3.2/topics/class-based-views/intro/) feature built-in.
 
-Template inheritance is like using partials in EJS with Express, except they're more flexible.
-
 The reason Django calls it template inheritance is because:
 
 - You can declare that a template extends another template.
@@ -658,7 +574,7 @@ To start using template inheritance we will be doing the follow steps:
 
 This is the template that will hold all of the boilerplate and markup that belongs on every page, such as the <head>, navigation, even a footer if you wish.
 
-In main_app/templates/base.html:
+In main_app/templates/main_app/base.html:
 
 ```
 <!DOCTYPE html>
@@ -700,7 +616,7 @@ In main_app/templates/base.html:
 
 ```
 
-> NOTE: We will be using Bulma as our CSS Framework to style our application. You can check out it's documentation. We are also going to be using Jquery to handle some dom manipulation magic later on.
+> NOTE: We will be using [Bulma](https://bulma.io/documentation/) as our CSS Framework to style our application. You can check out its documentation. We are also going to be using Jquery to handle some dom manipulation magic later on.
 > 
 
 However, the most important part of the boilerplate in regards to template inheritance is:
@@ -711,15 +627,15 @@ However, the most important part of the boilerplate in regards to template inher
 
 ```
 
-Hey, that's our first look at DTL template tags, block & endblock, enclosed within the template tag delimiters {% %}.
+Hey, that's our first look at DTL template tags, `block` & `endblock`, enclosed within the template tag delimiters {% %}.
 
-Whenever another template extends this base.html, that other template's {% block content %} will replace the same block in base.html.
+Whenever another template extends this base.html, that other template's `{% block content %}` will replace the same block in base.html.
 
 ### 2. Refactor Home.html to extend base.
 
 To see inheritance in action we will refactor Home.html.
 
-In main_app/templates/base.html:
+In main_app/templates/main_app/base.html:
 
 ```
 {% extends 'base.html' %}
@@ -764,7 +680,7 @@ To serve static files we will be doing the following steps:
 
 ### 1. Create a static directory.
 
-Just like our templates directory we will need to create a static direcctory for Django to find all static files. This is the same as our public folder in Express.
+Just like our templates directory we will need to create a static direcctory for Django to find all static files. This is similar to our public folder in React.
 
 In Terminal:
 
@@ -782,9 +698,9 @@ mkdir main_app/static/scripts main_app/static/styles
 
 ```
 
-NOw we can move on to making our files.
+Now we can move on to making our files.
 
-### 2. Create our CSS and js files.
+### 2. Create our CSS and JS files.
 
 We need to adjust some styles to make our application look at little more like spotify.
 
@@ -834,17 +750,25 @@ Now if you squeeze the page you will notice that Bulma is creating a hamburger m
 In main_app/static/scripts/main.js:
 
 ```
+// Here is the jQuery
 $(".navbar-burger").click(function () {
   // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
   $(".navbar-burger").toggleClass("is-active");
   $(".navbar-menu").toggleClass("is-active");
 });
 
+// This is the same as this vanilla JS -- pick whichever one you like!
+// const navBarBurgerEl = document.querySelector('.navbar-burger')
+// navBarBurgerEl.addEventListener('click', function (event){
+//   document.querySelector('.navbar-buger').classList.toggle('is-active');
+//   document.querySelector('.navbar-menu').classList.toggle('is-active');
+// });
+
 ```
 
 ### 3. Link the static files to our html.
 
-To connect our files to our html we will be using a special template tags {% load static %} and {% static 'filename' %}. Checkout info on them [HERE](https://docs.djangoproject.com/en/3.2/howto/static-files/).
+To connect our files to our html we will be using a special template tags `{% load static %}` and `{% static 'filename' %}`. Checkout info on them [HERE](https://docs.djangoproject.com/en/3.2/howto/static-files/).
 
 In main_app/templates/base.html:
 
@@ -858,7 +782,7 @@ This line is going to tell Django to look into the static folder and make any fi
 
 To link the new files to our html we will be adding the following lines:
 
-In main_app/templates/base.html:
+In main_app/templates/main_app/base.html:
 
 ```
 <!-- in our html head tag add the following  -->
@@ -867,13 +791,13 @@ In main_app/templates/base.html:
 
 ```
 
-Notice the src and hrefs of our connected files. This is the Django way of refrencing the static folder and its contents.
+Notice the src and hrefs of our connected files. This is the Django way of referencing the static folder and its contents.
 
 Refresh your page and check out the awesome new styles and menu functionality!
 
 ## Rendering Data in a Template
 
-Now we have the start to a great application! But it would be great to start start displaying data on our html. For this we will be adding an artist list route and using templating to generate a collection of artists on the page.
+Now we have the start to a great application! But it would be great to start start displaying data on our HTML. For this we will be adding an artist list route and using templating to generate a collection of artists on the page.
 
 For this we will be going through the following steps:
 
@@ -896,7 +820,7 @@ In main_app/urls.py:
 
 ### 2. Create some fake database data
 
-To replicate what we would get back from our database we will be creating a class that is an artist. This class will recieve a name, image, and Bio.
+To replicate what we would get back from our database we will be creating a class that is an artist. This class will recieve a name, image, and bio.
 
 In main_app/views.py:
 
@@ -925,8 +849,6 @@ artists = [
 
 To handle passing information into our templates we will be using a method built into all template classes called [get_context_data](https://docs.djangoproject.com/en/3.2/ref/class-based-views/mixins-single-object/#django.views.generic.detail.SingleObjectMixin.get_context_data).
 
-This is similar to how we would create context to pass into our ejs files.
-
 In main_app/views.py:
 
 ```
@@ -940,6 +862,8 @@ class ArtistList(TemplateView):
 
 ```
 
+> kwargs means "keyword arguments"! It's a cool [Pythonic way](https://realpython.com/python-kwargs-and-args/#using-the-python-kwargs-variable-in-function-definitions) of accepting multiple arguments with the Python unpacking operator `**`
+
 ### 4. Create a template view to display the Artists
 
 There are two control flow template tag constructs you'll use quite a bit:
@@ -947,11 +871,9 @@ There are two control flow template tag constructs you'll use quite a bit:
 - The {% for %} / {% endfor %} block used to perform looping
 - The {% if %} / {% elif %} / {% else %} / {% endif %} block used for conditional logic.
 
-**Important:** Django template tags are designed to mimic very closely their Python counterparts, however, they are not embedding Python the way EJS embedded JavaScript.
+**Important:** Django template tags are designed to mimic very closely their Python counterparts
 
-For example, Python does not have endfor or endif as part of the language.
-
-In main_app/templates/artist_list.html:
+In main_app/templates/main_app/artist_list.html:
 
 ```
 {% extends 'base.html' %}
