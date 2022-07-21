@@ -97,7 +97,6 @@ Take a minute to look at the generated files. Your file structure should look so
 ```
 django_spotify
 ├── manage.py
-├── requirements.txt
 └── spotify_project
     ├── __init__.py
     ├── asgi.py
