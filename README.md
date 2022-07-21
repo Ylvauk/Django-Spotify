@@ -2,10 +2,7 @@
 
 ## Road Map
 
-- Django Learning Path
-- Django Philosophy
-- Django Request/Response Cycle
-- Project setup
+- Project Setup
 - Project Settings Configuration
 - Defining Routes
 - Defining Views
@@ -18,39 +15,11 @@
 
 To learn Django we will be taking one of the biggest applications today built on the framework, Spotify. We will add features, piece-by-piece, to this modern full-stack reference application.
 
-After each major lesson we will be providing lab time for you to repeat what we went over in your own application.
-
-Here is an overview of the high-level topics we will be covering.
-
-- Django Urls, Views and Templates
-- Data Models and Migrations
-- One to Many Models
-- Many to Many Models
-- Django User Authentication
-
-## Django Philosophy
-
-### Review The Philosophy of Express
-
-Express was a minimalist framework that didn't provide much functionality out of the box.
-
-It gave us a way to define routes, map controller actions to those routes, and render dynamic views.
-
-Express didn't have many rules, for example, we could name files anything and put them anywhere we wanted.
-
-If we did need additional capability, it usually meant installing and configuring additional middleware.
-
-### The Philosophy of Django
-
-Unlike Express, Django, is a full-featured web framework that provides a lot of built-in functionality.
-
-However, Django has many *conventions*, i.e., it expects us to follow its rules.
-
-You will find that Django has all sorts of *helper* classes, methods, etc.
-
-What Express has to offer can be grasped in a matter of days, whereas Django could take weeks to feel comfortable with what it has to offer.
+Remember that while what Express has to offer can be grasped in a matter of days, Django could take weeks to feel comfortable with what it has to offer.
 
 Luckily for us though, the basics aren't too bad though, as long as you don't try to learn every little detail about each helper, etc.
+
+Focus on the bigger picture, and don't worry about memorizing syntax. You can always look up documentation and reference previous work. 
 
 ## The Request/Response Cycle in Django
 
