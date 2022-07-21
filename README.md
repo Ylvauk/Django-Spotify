@@ -761,21 +761,13 @@ $(".navbar-burger").click(function () {
   $(".navbar-burger").toggleClass("is-active");
   $(".navbar-menu").toggleClass("is-active");
 });
-
-// This is the same as this vanilla JS -- pick whichever one you like!
-// const navBarBurgerEl = document.querySelector('.navbar-burger')
-// navBarBurgerEl.addEventListener('click', function (event){
-//   document.querySelector('.navbar-buger').classList.toggle('is-active');
-//   document.querySelector('.navbar-menu').classList.toggle('is-active');
-// });
-
 ```
 
 ### 3. Link the static files to our html.
 
 To connect our files to our html we will be using a special template tags `{% load static %}` and `{% static 'filename' %}`. Checkout info on them [HERE](https://docs.djangoproject.com/en/3.2/howto/static-files/).
 
-In main_app/templates/base.html:
+In `main_app/templates/base.html`:
 
 ```
 <!-- At the top of the file  -->
@@ -787,7 +779,7 @@ This line is going to tell Django to look into the static folder and make any fi
 
 To link the new files to our html we will be adding the following lines:
 
-In main_app/templates/main_app/base.html:
+In `main_app/templates/main_app/base.html`:
 
 ```html
 <!-- in our html head tag add the following  -->
@@ -828,6 +820,8 @@ In main_app/urls.py:
 
 To replicate what we would get back from our database we will be creating a class that is an artist. This class will recieve a name, image, and bio.
 
+> Note: Putting this fake Artist class and artists list is just for demonstration purposes so we can focus on Views, Templates, and URLs in this app. In tomorrow's lab we'll add in Models that interact with our database.
+
 In main_app/views.py:
 
 ```py
@@ -839,14 +833,14 @@ class Artist:
         self.bio = bio
 
 artists = [
-    Artist("Gorillaz", "<https://i.scdn.co/image/ab67616d00001e0295cf976d9ab7320469a00a29>",
+    Artist("Gorillaz", "https://i.scdn.co/image/ab67616d00001e0295cf976d9ab7320469a00a29",
            "Gorillaz are once again disrupting the paradigm and breaking convention in their round the back door fashion with Song Machine, the newest concept from one of the most inventive bands around."),
     Artist("Panic! At The Disco",
-           "<https://i.scdn.co/image/58518a04cdd1f20a24cf0545838f3a7b775f8080>", "Welcome 👋 The Amazing Beebo was working on a new bio but now he's too busy taking over the world."),
-    Artist("Joji", "<https://i.scdn.co/image/7bc3bb57c6977b18d8afe7d02adaeed4c31810df>",
+           "https://i.scdn.co/image/58518a04cdd1f20a24cf0545838f3a7b775f8080", "Welcome 👋 The Amazing Beebo was working on a new bio but now he's too busy taking over the world."),
+    Artist("Joji", "https://i.scdn.co/image/7bc3bb57c6977b18d8afe7d02adaeed4c31810df",
            "Joji is one of the most enthralling artists of the digital age. New album Nectar arrives as an eagerly anticipated follow-up to Joji's RIAA Gold-certified first full-length album BALLADS 1, which topped the Billboard R&B / Hip-Hop Charts and has amassed 3.6B+ streams to date."),
     Artist("Metallica",
-           "<https://i.scdn.co/image/ab67706c0000da84eb6bb372a485d26fd32d1922>", "Metallica formed in 1981 by drummer Lars Ulrich and guitarist and vocalist James Hetfield and has become one of the most influential and commercially successful rock bands in history, having sold 110 million albums worldwide while playing to millions of fans on literally all seven continents.")
+           "https://i.scdn.co/image/ab67706c0000da84eb6bb372a485d26fd32d1922", "Metallica formed in 1981 by drummer Lars Ulrich and guitarist and vocalist James Hetfield and has become one of the most influential and commercially successful rock bands in history, having sold 110 million albums worldwide while playing to millions of fans on literally all seven continents.")
 ]
 
 ```
@@ -859,7 +853,7 @@ In main_app/views.py:
 
 ```py
 class ArtistList(TemplateView):
-    template_name = "artist_list.html"
+    template_name = "main_app/artist_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -882,7 +876,7 @@ There are two control flow template tag constructs you'll use quite a bit:
 In main_app/templates/main_app/artist_list.html:
 
 ```html
-{% extends 'base.html' %}
+{% extends 'main_app/base.html' %}
 
 {% block content %}
 
@@ -911,7 +905,18 @@ In main_app/templates/main_app/artist_list.html:
 Next notice how double curly brace syntax {{}} is used to print the values of variables and object properties.
 
 > NOTE: If the property on an object is a method, it is automatically invoked by the template engine without any arguments and we do not put parens after the method name. For example, assuming a person object has a getFullName method, it would be used like this {{ person.getFullName }} in the template. This is another example of how DTL is its own language and not Python.
-> 
+
+
+In base.html, update the navbar links to be dynamic: 
+
+```html
+<div class="navbar-menu navbar-start">
+	<a class="navbar-item" href="{% url 'main_app:about' %}">About</a>
+</div>
+<div class="navbar-menu navbar-end">
+	<a class="navbar-item" href="{% url 'main_app:artist_list' %}">Artists</a>
+</div>
+```
 
 Head on over to the new route and checkout our beautiful new artists!
 
@@ -921,11 +926,10 @@ Head on over to the new route and checkout our beautiful new artists!
 
 Spend some time practicing by building a route to "songs/" and displaying a collection of songs.
 
-## Bonuses 
+Create a fake Song model in main_app/views.py and create an array of 3 `songs`. 
 
-- Register your Artist and Song models with your Admin Site
-- Create a super user 
-- Log in as the super user to your admin site at localhost:8000/admin and create new instances of Artists and Songs through your admin interface
+Add a Song link in the navbar so the user can click on and see the songs.
+
 
 ## References
 
