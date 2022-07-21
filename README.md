@@ -679,7 +679,7 @@ Now we can move on to making our files.
 
 We need to adjust some styles to make our application look at little more like spotify.
 
-In main_app/static/styles/main_app/main.css:
+In main_app/static/main_app/styles/main.css:
 
 ```css
 body {
@@ -721,7 +721,7 @@ p {
 
 Now if you squeeze the page you will notice that Bulma is creating a hamburger menu for us when the screen is to small. If we want to to be able to tap on the icon and animate the menu we will have to use some js! Check out the [bulma documentation on this effect](https://versions.bulma.io/0.7.0/documentation/components/navbar/#navbar-menu).
 
-In main_app/static/scripts/main.js:
+In main_app/static/main_app/scripts/main.js:
 
 ```js
 // Here is the jQuery
@@ -736,7 +736,7 @@ $(".navbar-burger").click(function () {
 
 To connect our files to our html we will be using a special template tags `{% load static %}` and `{% static 'filename' %}`. Checkout info on them [HERE](https://docs.djangoproject.com/en/3.2/howto/static-files/).
 
-In `main_app/templates/base.html`:
+In `main_app/templates/main_app/base.html`:
 
 ```
 <!-- At the top of the file  -->
