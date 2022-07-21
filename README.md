@@ -264,7 +264,7 @@ Quit the server with CONTROL-C.
 
 With this our server is live and ready! Let's checkout what is available for us at `localhost:8000`.
 
-<img src="[https://i.imgur.com/RozMgJ0.png](https://i.imgur.com/RozMgJ0.png)"/>
+![https://i.imgur.com/RozMgJ0.png](https://i.imgur.com/RozMgJ0.png)
 
 If you see the rocketship you all set!
 
@@ -276,9 +276,9 @@ As you learned with Express, there needs to be a route defined that matches each
 
 Before we start creating our routes let's take a look at the Django flow once more.
 
-<img src="[https://i.imgur.com/1fFg7lz.png](https://i.imgur.com/1fFg7lz.png)">
+<img src="https://i.imgur.com/1fFg7lz.png">
 
-The way requests are mapped are starting in our project folder and then routed to the corresponding application folder. This allows Django to be extremely flexible and is similar to how we were using controllers in express.
+The way requests are mapped are starting in our project folder and then routed to the corresponding application folder. This allows Django to be extremely flexible and is similar to how we were using controllers in Express.
 
 To connect our project urls to our application urls we need to go through a** one time setup**.
 
@@ -302,7 +302,7 @@ With our newly created file we will now add the base code to hold url requests.
 
 In main_app/urls.py:
 
-```
+```py
 from django.urls import path
 from . import views
 
@@ -320,9 +320,9 @@ Each item in the urlpatterns list defines a URL-based route or, as in the case a
 
 Note that similar to how Express appends paths defined in a router module to the path in app.use, the paths defined in 'main_app.urls' will be appended to the path specified in the include function.
 
-In spotify_project/urls.py:
+In `spotify_project/urls.py`:
 
-```
+```py
 from django.contrib import admin
 from django.urls import path, include # <- you must add include to the imports
 
@@ -341,7 +341,7 @@ Right now we still see the rocketship because that is the default root route. We
 
 But first let's breakdown the syntax of path().
 
-```
+```py
 path('route string', name of view function, name="string name of route")
 # example
 path('artists/', views.Artist_List.as_view(), name="artist_list")
@@ -350,9 +350,9 @@ path('artists/', views.Artist_List.as_view(), name="artist_list")
 
 In the route we will be building we will be using an empty string as the route to signify the root route.
 
-In main_app/urls.py:
+In `main_app/urls.py`:
 
-```
+```py
 from django.urls import path
 from . import views
 
@@ -371,7 +371,7 @@ For this app, we will be leveraging [class-based views](https://docs.djangoproje
 
 In `main_app/views.py`:
 
-```
+```py
 from django.shortcuts import render
 from django.views import View # <- View class to handle requests
 from django.http import HttpResponse # <- a class to handle sending a type of response
@@ -401,9 +401,9 @@ Step back through what we just did and create a route for a new url location "ab
 <summary>Solution</summary>
 <br>
 
-In main_app/urls.py:
+In `main_app/urls.py`:
 
-```
+```py
 
 urlpatterns = [
     path('', views.Home.as_view(), name="home"),
@@ -430,7 +430,7 @@ class About(View):
 
 Time to crank it up a notch by using templates!
 
-Just like how Express can use different templating engines (Jade, EJS, etc.), so can Django.
+Just like how Express can use different templating engines (Handlebars, Jade, EJS, etc.), so can Django.
 
 Django has two templating engines built-in:
 
@@ -471,7 +471,7 @@ Once you have created the template add some base html.
 
 In main_app/templates/main_app/home.html:
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -495,7 +495,7 @@ To do this we will be importing a new class called TemplateView at the top of ou
 
 In main_app/views.py:
 
-```
+```py
 #...
 from django.views.generic.base import TemplateView
 
@@ -505,7 +505,7 @@ With our new import we will refactor our Home view class to extend this view ins
 
 In main_app/views.py:
 
-```
+```py
 class Home(TemplateView):
     template_name = "home.html"
 
@@ -526,7 +526,7 @@ Retrace the steps above and convert the About View into a template view as well.
 
 In `main_app/templates/main_app/about.html`:
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -544,7 +544,7 @@ In `main_app/templates/main_app/about.html`:
 
 In main_app/views.py:
 
-```
+```py
 #...
 class About(TemplateView):
     template_name = "about.html"
@@ -562,7 +562,7 @@ The reason Django calls it template inheritance is because:
 - You can declare that a template extends another template.
 - Extending another template results in defined blocks overriding (replacing) blocks defined in the template being extended.
 
-<img src="[https://i.imgur.com/ZajRcLx.jpg](https://i.imgur.com/ZajRcLx.jpg)" />
+![https://i.imgur.com/ZajRcLx.jpg](https://i.imgur.com/ZajRcLx.jpg)
 
 To start using template inheritance we will be doing the follow steps:
 
@@ -575,7 +575,7 @@ This is the template that will hold all of the boilerplate and markup that belon
 
 In main_app/templates/main_app/base.html:
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -636,7 +636,7 @@ To see inheritance in action we will refactor Home.html.
 
 In main_app/templates/main_app/base.html:
 
-```
+```html
 {% extends 'base.html' %}
 {% block content %}
 <h1>Spotify Home</h1>
@@ -658,7 +658,7 @@ Refactor About.html to extend base.
 
 In main_app/templates/about.html:
 
-```
+```html
 {% extends 'base.html' %} {% block content %}
 <h1>About</h1>
 {% endblock %}
@@ -705,7 +705,7 @@ We need to adjust some styles to make our application look at little more like s
 
 In main_app/static/styles/main.css:
 
-```
+```css
 body {
   background-color: #121212;
   color: #ffffff;
@@ -748,7 +748,7 @@ Now if you squeeze the page you will notice that Bulma is creating a hamburger m
 
 In main_app/static/scripts/main.js:
 
-```
+```js
 // Here is the jQuery
 $(".navbar-burger").click(function () {
   // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
@@ -783,7 +783,7 @@ To link the new files to our html we will be adding the following lines:
 
 In main_app/templates/main_app/base.html:
 
-```
+```html
 <!-- in our html head tag add the following  -->
 <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
 <script src="{% static 'scripts/main.js' %}" defer></script>
@@ -809,7 +809,7 @@ For this we will be going through the following steps:
 
 In main_app/urls.py:
 
-```
+```py
  urlpatterns = [
     # ...
     path('artists/', views.ArtistList.as_view(), name="artist_list")
@@ -823,7 +823,7 @@ To replicate what we would get back from our database we will be creating a clas
 
 In main_app/views.py:
 
-```
+```py
  #adds artist class for mock database data
 class Artist:
     def __init__(self, name, image, bio):
@@ -850,7 +850,7 @@ To handle passing information into our templates we will be using a method built
 
 In main_app/views.py:
 
-```
+```py
 class ArtistList(TemplateView):
     template_name = "artist_list.html"
 
@@ -874,7 +874,7 @@ There are two control flow template tag constructs you'll use quite a bit:
 
 In main_app/templates/main_app/artist_list.html:
 
-```
+```html
 {% extends 'base.html' %}
 
 {% block content %}
@@ -913,6 +913,12 @@ Head on over to the new route and checkout our beautiful new artists!
 ---
 
 Spend some time practicing by building a route to "songs/" and displaying a collection of songs.
+
+## Bonuses 
+
+- Register your Artist and Song models with your Admin Site
+- Create a super user 
+- Log in as the super user to your admin site at localhost:8000/admin and create new instances of Artists and Users through your admin interface
 
 ## References
 
