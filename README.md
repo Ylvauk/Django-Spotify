@@ -918,7 +918,7 @@ Spend some time practicing by building a route to "songs/" and displaying a coll
 
 - Register your Artist and Song models with your Admin Site
 - Create a super user 
-- Log in as the super user to your admin site at localhost:8000/admin and create new instances of Artists and Users through your admin interface
+- Log in as the super user to your admin site at localhost:8000/admin and create new instances of Artists and Songs through your admin interface
 
 ## References
 
