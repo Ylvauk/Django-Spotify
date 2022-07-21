@@ -162,7 +162,7 @@ If you check out the `settings.py`, we can see a variety of apps installed alrea
 
 In spotify_project/settings.py
 
-```
+```py
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -356,6 +356,7 @@ In `main_app/urls.py`:
 from django.urls import path
 from . import views
 
+app_name = 'main_app'
 urlpatterns = [
     path('', views.Home.as_view(), name="home"), # <- here we have added the new path
 ]
@@ -404,7 +405,7 @@ Step back through what we just did and create a route for a new url location "ab
 In `main_app/urls.py`:
 
 ```py
-
+app_name = 'main_app'
 urlpatterns = [
     path('', views.Home.as_view(), name="home"),
     path('about/', views.About.as_view(), name="about"), # <- new route
@@ -507,7 +508,7 @@ In main_app/views.py:
 
 ```py
 class Home(TemplateView):
-    template_name = "home.html"
+    template_name = "main_app/home.html"
 
 ```
 
@@ -547,7 +548,7 @@ In main_app/views.py:
 ```py
 #...
 class About(TemplateView):
-    template_name = "about.html"
+    template_name = "main_app/about.html"
 
 ```
 
@@ -555,7 +556,9 @@ class About(TemplateView):
 
 ## Template Inheritance
 
-Django has a [template inheritance](https://docs.djangoproject.com/en/3.2/topics/class-based-views/intro/) feature built-in.
+Hmm, weird that we have to have the same HTML boilerplate over and over again. 
+    
+Django actually has a [template inheritance](https://docs.djangoproject.com/en/3.2/topics/class-based-views/intro/) feature built-in.
 
 The reason Django calls it template inheritance is because:
 
@@ -566,8 +569,8 @@ The reason Django calls it template inheritance is because:
 
 To start using template inheritance we will be doing the follow steps:
 
-1. Create a base.html to extend from.
-2. Refactor Home.html to extend base.
+1. Create a `base.html` to extend from.
+2. Refactor `home.html` to extend base.
 
 ### 1. Create a base.html to extend from.
 
@@ -582,8 +585,8 @@ In main_app/templates/main_app/base.html:
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="<https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css>">
-    <script src="<https://code.jquery.com/jquery-3.6.0.min.js>" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Spotify</title>
   </head>
   <body >
@@ -630,18 +633,16 @@ Hey, that's our first look at DTL template tags, `block` & `endblock`, enclosed 
 
 Whenever another template extends this base.html, that other template's `{% block content %}` will replace the same block in base.html.
 
-### 2. Refactor Home.html to extend base.
+### 2. Refactor `home.html` to extend base.
 
-To see inheritance in action we will refactor Home.html.
+To see inheritance in action we will refactor `home.html`.
 
-In main_app/templates/main_app/base.html:
+In `main_app/templates/main_app/home.html`:
 
 ```html
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'main_app/base.html' %} {% block content %}
 <h1>Spotify Home</h1>
 {% endblock %}
-
 ```
 
 Notice the "extends" keyword in our template. This is how the DTL know what to build the template from. Go refresh your page and check it out!
@@ -659,10 +660,9 @@ Refactor About.html to extend base.
 In main_app/templates/about.html:
 
 ```html
-{% extends 'base.html' %} {% block content %}
+{% extends 'main_app/base.html' %} {% block content %}
 <h1>About</h1>
 {% endblock %}
-
 ```
 
 </details>
@@ -681,10 +681,13 @@ To serve static files we will be doing the following steps:
 
 Just like our templates directory we will need to create a static direcctory for Django to find all static files. This is similar to our public folder in React.
 
+Remember to nest your static assets in a folder named for the app to prevent Django from confusing identically-named style assets. 
+
 In Terminal:
 
 ```
-mkdir main_app/static
+mkdir main_app/static/
+mkdir main_app/static/main_app
 
 ```
 
@@ -693,7 +696,7 @@ Once we create the static directory we will also want to created our nested scri
 In Terminal:
 
 ```
-mkdir main_app/static/scripts main_app/static/styles
+mkdir main_app/static/main_app/scripts main_app/static/main_app/styles
 
 ```
 
@@ -703,7 +706,7 @@ Now we can move on to making our files.
 
 We need to adjust some styles to make our application look at little more like spotify.
 
-In main_app/static/styles/main.css:
+In main_app/static/styles/main_app/main.css:
 
 ```css
 body {
@@ -741,7 +744,13 @@ h3 {
 p {
   font-size: 12px;
 }
+```
 
+In the head of your `base.html`, add the following tags after the Bulma stylesheet link:
+
+```html
+{% load static %}
+<link rel="stylesheet" href="{% static 'main_app/styles/main.css' %}">
 ```
 
 Now if you squeeze the page you will notice that Bulma is creating a hamburger menu for us when the screen is to small. If we want to to be able to tap on the icon and animate the menu we will have to use some js! Check out the [bulma documentation on this effect](https://versions.bulma.io/0.7.0/documentation/components/navbar/#navbar-menu).
