@@ -641,7 +641,9 @@ In `main_app/templates/main_app/home.html`:
 
 ```html
 {% extends 'main_app/base.html' %} {% block content %}
-<h1>Spotify Home</h1>
+<div class="container m-2">
+	<h1>Spotify Home</h1>
+</div>
 {% endblock %}
 ```
 
@@ -661,7 +663,9 @@ In main_app/templates/about.html:
 
 ```html
 {% extends 'main_app/base.html' %} {% block content %}
-<h1>About</h1>
+<div class="container m-2">
+	<h1>About</h1>
+</div>
 {% endblock %}
 ```
 
@@ -746,13 +750,6 @@ p {
 }
 ```
 
-In the head of your `base.html`, add the following tags after the Bulma stylesheet link:
-
-```html
-{% load static %}
-<link rel="stylesheet" href="{% static 'main_app/styles/main.css' %}">
-```
-
 Now if you squeeze the page you will notice that Bulma is creating a hamburger menu for us when the screen is to small. If we want to to be able to tap on the icon and animate the menu we will have to use some js! Check out the [bulma documentation on this effect](https://versions.bulma.io/0.7.0/documentation/components/navbar/#navbar-menu).
 
 In main_app/static/scripts/main.js:
@@ -794,12 +791,13 @@ In main_app/templates/main_app/base.html:
 
 ```html
 <!-- in our html head tag add the following  -->
-<link rel="stylesheet" href="{% static 'styles/main.css' %}" />
-<script src="{% static 'scripts/main.js' %}" defer></script>
-
+<!-- add custom stylesheet after bulma  -->
+<link rel="stylesheet" href="{% static 'main_app/styles/main.css' %}">
+<!-- add custom script after jquery -->
+<script src="{% static 'main_app/scripts/main.js' %}" defer></script>
 ```
 
-Notice the src and hrefs of our connected files. This is the Django way of referencing the static folder and its contents.
+Notice the `src` and `hrefs` of our connected files. This is the Django way of referencing the static folder and its contents.
 
 Refresh your page and check out the awesome new styles and menu functionality!
 
