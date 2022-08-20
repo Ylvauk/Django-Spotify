@@ -1,0 +1,15 @@
+{% extends 'main_app/base.html' %}
+{% block content %}
+<h1 class="title">Trending Songs</h1>
+<div class="gallery">
+  {% for song in songs %}
+  <a href="">
+    <div class="card">
+      <div class="card-header">
+        <p class="card-header-title">{{song.name}}</p>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
